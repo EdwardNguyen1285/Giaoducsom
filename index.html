@@ -16,10 +16,10 @@
   --border:#D9CFC4;--panel:#F2EDE6;
   --r:12px;
 }
-body{font-family:'Be Vietnam Pro',sans-serif;background:var(--bg);color:var(--ink);min-height:100vh}
+body{font-family:'Be Vietnam Pro',sans-serif;background:var(--bg);color:var(--ink);min-height:100vh;overflow:auto}
 
 /* ── SHELL ── */
-.shell{display:grid;grid-template-columns:920px 1fr;grid-template-rows:56px 1fr;height:100vh;overflow:hidden}
+.shell{display:grid;grid-template-columns:minmax(460px,920px) minmax(0,1fr);grid-template-rows:56px minmax(0,1fr);height:100vh;min-height:100vh;overflow:hidden}
 
 /* ── TOPBAR ── */
 .topbar{grid-column:1/-1;background:var(--sage);display:flex;align-items:center;justify-content:space-between;padding:0 20px;gap:10px;flex-shrink:0}
@@ -27,10 +27,10 @@ body{font-family:'Be Vietnam Pro',sans-serif;background:var(--bg);color:var(--in
 .topbar-actions{display:flex;gap:7px;align-items:center;flex-wrap:wrap}
 
 /* ── LEFT FORM ── */
-.left{background:var(--panel);overflow-y:scroll;overflow-x:hidden;padding:16px 15px 48px;display:flex;flex-direction:column;gap:12px;min-height:0}
+.left{background:var(--panel);overflow-y:auto;overflow-x:hidden;padding:16px 15px 48px;display:flex;flex-direction:column;gap:12px;min-height:0}
 
 /* ── RIGHT PREVIEW ── */
-.right{background:#DDD7CF;display:flex;flex-direction:column;align-items:center;padding:24px 16px 60px}
+.right{background:#DDD7CF;display:flex;flex-direction:column;align-items:center;padding:24px 16px 60px;overflow-y:auto;overflow-x:hidden;min-height:0}
 
 /* ── FORM CARDS ── */
 .fc{background:var(--white);border:1px solid var(--border);border-radius:var(--r);overflow:hidden}
@@ -50,7 +50,7 @@ body{font-family:'Be Vietnam Pro',sans-serif;background:var(--bg);color:var(--in
 .f label{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--soft)}
 .f input,.f textarea{font-family:'Be Vietnam Pro',sans-serif;font-size:12.5px;color:var(--ink);background:var(--panel);border:1.5px solid var(--border);border-radius:7px;padding:6px 9px;outline:none;resize:vertical;transition:border-color .15s,box-shadow .15s;width:100%}
 .f input:focus,.f textarea:focus{border-color:var(--sage);box-shadow:0 0 0 3px rgba(90,138,95,.1);background:white}
-.f textarea{min-height:70px;line-height:1.55}
+.f textarea{min-height:96px;line-height:1.55}
 .sublbl{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:var(--terra);padding:3px 0 2px;border-bottom:1px solid var(--terra-lt);margin-bottom:2px}
 
 /* ── BUTTONS ── */
@@ -106,9 +106,9 @@ body{font-family:'Be Vietnam Pro',sans-serif;background:var(--bg);color:var(--in
 
 /* ── MOBILE ── */
 @media(max-width:860px){
-  .shell{grid-template-columns:1fr;grid-template-rows:56px auto auto;height:auto;overflow:auto}
+  .shell{grid-template-columns:1fr;grid-template-rows:56px auto auto;height:auto;min-height:100vh;overflow:visible}
   .left{height:auto;overflow:visible}
-  .right{padding:16px 6px 40px}
+  .right{padding:16px 6px 40px;overflow:visible}
   .page{width:100%;padding:20px 16px}
 }
 </style>
@@ -378,13 +378,17 @@ Trả về HTML THUẦN (không markdown, không backtick). Dùng ĐÚNG các cl
 
   showLoad('✨ Đang tạo báo cáo...');
   try{
-    const res=await fetch('https://api.anthropic.com/v1/messages',{
+    const res=await fetch('https://api.openai.com/v1/responses',{
       method:'POST',
       headers:{'Content-Type':'application/json'},
-      body:JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:1000,messages:[{role:'user',content:prompt}]})
+      body:JSON.stringify({
+        model:'gpt-5.4',
+        max_output_tokens:1200,
+        input:prompt
+      })
     });
     const data=await res.json();
-    const raw=(data.content||[]).map(b=>b.text||'').join('');
+    const raw=(data.output_text||'').trim();
     const clean=raw.replace(/```html/gi,'').replace(/```/g,'').trim();
     document.getElementById('ph').style.display='none';
     const rc=document.getElementById('rc');
@@ -406,12 +410,11 @@ async function handleAudioUpload(input) {
   showLoad('🎙️ Đang phân tích file ghi âm...');
 
   try {
-    // Step 1: Transcribe audio via Whisper (OpenAI) — fallback to base64 + Claude if unavailable
-    // We use the Anthropic audio input feature: send base64 audio to Claude directly
+    // Step 1: Convert media to base64 and send to GPT-5.4 for extraction
     const base64 = await toBase64(file);
     const mime = file.type || 'audio/mpeg';
 
-    // Step 2: Send to Claude with audio + extraction prompt in one call
+    // Step 2: Send to GPT-5.4 with audio + extraction prompt in one call
     const prompt = `Bạn nhận được một file ghi âm của giáo viên giáo dục phát triển sớm mô tả buổi học của một bé.
 Hãy:
 1. Nghe/đọc nội dung ghi âm
@@ -441,34 +444,32 @@ Trả về JSON THUẦN (không markdown, không giải thích), với các key 
   "closing": "lời cảm ơn / nhắn gửi phụ huynh"
 }`;
 
-    const res = await fetch('https://api.anthropic.com/v1/messages', {
+    const res = await fetch('https://api.openai.com/v1/responses', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
-        model: 'claude-sonnet-4-20250514',
-        max_tokens: 1000,
-        messages: [{
+        model: 'gpt-5.4',
+        max_output_tokens: 1200,
+        input: [{
           role: 'user',
           content: [
             {
-              type: 'document',
-              source: { type: 'base64', media_type: mime, data: base64 }
+              type: 'input_file',
+              filename: file.name || 'audio-input',
+              file_data: `data:${mime};base64,${base64}`
             },
-            { type: 'text', text: prompt }
+            { type: 'input_text', text: prompt }
           ]
         }]
       })
     });
 
     const data = await res.json();
-
-    // If Claude doesn't support audio directly, fall back to text-only extraction
-    // by asking Claude to treat the transcription request gracefully
     if (data.error) {
       throw new Error(data.error.message || 'API error');
     }
 
-    const raw = (data.content || []).map(b => b.text || '').join('');
+    const raw = (data.output_text || '').trim();
     const clean = raw.replace(/```json/gi, '').replace(/```/g, '').trim();
 
     let obj;

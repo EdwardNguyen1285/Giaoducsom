@@ -1,0 +1,21 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+# Opt-out per commit/session: AUTO_PUSH_DISABLED=1 git commit ...
+if [[ "${AUTO_PUSH_DISABLED:-0}" == "1" ]]; then
+  exit 0
+fi
+
+# Only push if origin exists
+if ! git remote get-url origin >/dev/null 2>&1; then
+  exit 0
+fi
+
+branch="$(git rev-parse --abbrev-ref HEAD)"
+
+# Skip detached HEAD
+if [[ "$branch" == "HEAD" ]]; then
+  exit 0
+fi
+
+git push origin "$branch"
