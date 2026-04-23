@@ -51,7 +51,7 @@
     .shell {
       display: grid;
       grid-template-columns: minmax(400px, 450px) 1fr;
-      grid-template-rows: 64px 1fr;
+      grid-template-rows: auto minmax(0, 1fr);
       height: 100vh;
       overflow: hidden;
       background: var(--bg);
@@ -64,10 +64,12 @@
       display: flex;
       align-items: center;
       justify-content: space-between;
-      padding: 0 24px;
+      gap: 12px;
+      padding: 12px 24px;
       box-shadow: var(--shadow-sm);
       z-index: 100;
       position: relative;
+      flex-wrap: wrap;
     }
 
     .topbar-title {
@@ -81,20 +83,23 @@
     .topbar-actions {
       display: flex;
       gap: 10px;
-      align-items: center
+      align-items: center;
+      flex-wrap: wrap;
+      justify-content: flex-end
     }
 
     /* ── LEFT FORM ── */
     .left {
       background: var(--panel);
       backdrop-filter: blur(10px);
-      overflow-y: scroll;
+      overflow-y: auto;
       overflow-x: hidden;
       padding: 24px;
       display: flex;
       flex-direction: column;
       gap: 18px;
       min-height: 0;
+      min-width: 0;
       border-right: 1px solid var(--border);
       scrollbar-width: thin;
       scrollbar-color: var(--sage-lt) transparent;
@@ -117,6 +122,9 @@
       align-items: center;
       padding: 32px 24px 80px;
       overflow-y: auto;
+      overflow-x: hidden;
+      min-height: 0;
+      min-width: 0;
     }
 
     /* ── FORM CARDS ── */
@@ -230,14 +238,15 @@
     /* ── FIELD ── */
     .fr {
       display: grid;
-      grid-template-columns: 1fr 1fr;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
       gap: 12px
     }
 
     .f {
       display: flex;
       flex-direction: column;
-      gap: 5px
+      gap: 5px;
+      min-width: 0
     }
 
     .f label {
@@ -318,6 +327,18 @@
       background: #4A7A50;
       transform: translateY(-2px);
       box-shadow: 0 6px 16px rgba(90, 138, 95, .4)
+    }
+
+    .bgen {
+      background: var(--terra);
+      color: white;
+      box-shadow: 0 4px 12px rgba(184, 92, 56, .3)
+    }
+
+    .bgen:hover {
+      background: #9E4A28;
+      transform: translateY(-2px);
+      box-shadow: 0 6px 16px rgba(184, 92, 56, .4)
     }
 
     .bg {
@@ -705,18 +726,36 @@
     @media(max-width:860px) {
       .shell {
         grid-template-columns: 1fr;
-        grid-template-rows: 56px auto auto;
-        height: auto;
-        overflow: auto
+        grid-template-rows: auto minmax(0, 1fr) minmax(0, 1fr);
+        height: 100vh;
+        overflow: hidden
+      }
+
+      .topbar {
+        padding: 12px 16px;
+      }
+
+      .topbar-actions {
+        width: 100%;
+        justify-content: flex-start;
       }
 
       .left {
-        height: auto;
-        overflow: visible
+        min-height: 0;
+        overflow-y: auto;
+        border-right: none;
+        border-bottom: 1px solid var(--border);
+        padding: 16px
       }
 
       .right {
+        min-height: 0;
+        overflow-y: auto;
         padding: 16px 6px 40px
+      }
+
+      .fr {
+        grid-template-columns: 1fr;
       }
 
       .page {
@@ -744,7 +783,7 @@
           form</button>
         <input type="file" id="audioFile" accept="audio/*,video/mp4" style="display:none"
           onchange="handleAudioUpload(this)">
-        <button class="btn bp" onclick="gen()">✨ Tạo báo cáo</button>
+        <button class="btn bgen" onclick="gen()">✨ Tạo báo cáo</button>
         <button class="btn bgh" onclick="toggleGH()">☁️ Lưu lên GitHub</button>
         <button class="btn bprint" onclick="doPrint()">🖨️ In / PDF</button>
       </div>
@@ -911,7 +950,7 @@
       </div>
 
       <div style="display:flex;gap:8px;padding-top:6px">
-        <button class="btn bp" style="flex:1" onclick="gen()">✨ Tạo báo cáo bằng AI</button>
+        <button class="btn bgen" style="flex:1" onclick="gen()">✨ Tạo báo cáo bằng AI</button>
         <button class="btn" style="background:var(--panel);color:var(--mid);border:1px solid var(--border)"
           onclick="clr()">🗑️ Xóa</button>
       </div>
