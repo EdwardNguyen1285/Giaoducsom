@@ -43,19 +43,19 @@
       font-family: 'Be Vietnam Pro', sans-serif;
       background: radial-gradient(circle at top left, #FDFCFB 0%, #F8F4EF 100%);
       color: var(--ink);
-      min-height: 100vh;
-      overflow: auto;
+      height: 100vh;
+      overflow: hidden;
     }
 
     /* ── SHELL ── */
     .shell {
       display: grid;
       grid-template-columns: minmax(380px, 460px) minmax(0, 1fr);
-      grid-template-rows: auto 1fr;
-      min-height: 100vh;
-      overflow: visible;
+      grid-template-rows: auto minmax(0, 1fr);
+      height: 100vh;
+      overflow: hidden;
       background: var(--bg);
-      align-items: start;
+      align-items: stretch;
     }
 
     /* ── TOPBAR ── */
@@ -93,7 +93,7 @@
     .left {
       background: var(--panel);
       backdrop-filter: blur(10px);
-      overflow-y: visible;
+      overflow-y: auto;
       overflow-x: hidden;
       padding: 24px;
       display: flex;
@@ -121,9 +121,20 @@
       display: flex;
       flex-direction: column;
       align-items: center;
+      justify-content: flex-start;
       padding: 32px 24px 80px;
-      overflow: visible;
+      overflow-y: auto;
+      overflow-x: hidden;
+      min-height: 0;
       min-width: 0;
+    }
+
+    .pages {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 24px;
     }
 
     /* ── FORM CARDS ── */
@@ -460,6 +471,7 @@
       background: white;
       width: min(760px, 100%);
       min-height: 1073px;
+      height: 1073px;
       box-shadow: var(--shadow-lg);
       border-radius: 8px;
       padding: 60px 64px;
@@ -467,6 +479,14 @@
       color: var(--ink);
       transform-origin: top center;
       transition: transform 0.3s ease;
+      overflow: hidden;
+      break-after: page;
+      page-break-after: always;
+    }
+
+    .page:last-child {
+      break-after: auto;
+      page-break-after: auto;
     }
 
     /* ── REPORT STYLES ── */
@@ -616,8 +636,13 @@
         overflow: visible !important
       }
 
+      .pages {
+        display: block !important;
+      }
+
       .page {
         width: 100% !important;
+        height: auto !important;
         min-height: auto !important;
         box-shadow: none !important;
         border-radius: 0 !important;
@@ -632,17 +657,28 @@
 
     /* ── MOBILE ── */
     @media(max-width:1200px) {
+      body {
+        height: auto;
+        min-height: 100vh;
+        overflow: auto;
+      }
+
       .shell {
         grid-template-columns: 1fr;
         grid-template-rows: auto auto auto;
+        height: auto;
+        min-height: 100vh;
+        overflow: visible;
       }
 
       .left {
         border-right: none;
         border-bottom: 1px solid var(--border);
+        overflow: visible;
       }
 
       .right {
+        overflow: visible;
         padding: 16px 12px 40px
       }
     }
@@ -847,15 +883,17 @@
 
     <!-- RIGHT: PREVIEW -->
     <div class="right" id="rightPanel">
-      <div class="page" id="page">
+      <div class="pages" id="pages">
+        <div class="page">
         <div class="r-placeholder" id="ph">
           <div class="big">📄</div>
           <strong>Điền thông tin bên trái</strong><br>
           rồi nhấn <strong>"✨ Tạo báo cáo"</strong><br>
           để xem báo cáo hoàn chỉnh tại đây
         </div>
-        <div id="rc" style="display:none"></div>
+        </div>
       </div>
+      <div id="rc" hidden></div>
     </div>
 
   </div><!-- /shell -->
@@ -863,6 +901,65 @@
   <script>
     /* ── helpers ── */
     const G = id => (document.getElementById(id)?.value || '').trim();
+    const rightPanel = document.getElementById('rightPanel');
+    const pagesEl = document.getElementById('pages');
+    const rcEl = document.getElementById('rc');
+    const emptyPreviewMarkup = pagesEl.innerHTML;
+
+    function createPageElement() {
+      const page = document.createElement('div');
+      page.className = 'page';
+      return page;
+    }
+
+    function renderEmptyPreview() {
+      rcEl.innerHTML = '';
+      pagesEl.innerHTML = emptyPreviewMarkup;
+      rightPanel.scrollTop = 0;
+    }
+
+    function renderPaginatedPreview(html) {
+      rcEl.innerHTML = html;
+      pagesEl.innerHTML = '';
+
+      const source = document.createElement('div');
+      source.innerHTML = html;
+      const blocks = Array.from(source.childNodes).filter(node => node.nodeType !== Node.TEXT_NODE || node.textContent.trim());
+
+      if (!blocks.length) {
+        renderEmptyPreview();
+        return;
+      }
+
+      let page = createPageElement();
+      pagesEl.appendChild(page);
+
+      for (const block of blocks) {
+        const clone = block.cloneNode(true);
+        page.appendChild(clone);
+
+        if (page.scrollHeight <= page.clientHeight + 1) continue;
+
+        page.removeChild(clone);
+
+        if (!page.children.length) {
+          page.appendChild(clone);
+          page = createPageElement();
+          pagesEl.appendChild(page);
+          continue;
+        }
+
+        page = createPageElement();
+        pagesEl.appendChild(page);
+        page.appendChild(clone);
+      }
+
+      if (pagesEl.lastElementChild && !pagesEl.lastElementChild.children.length) {
+        pagesEl.lastElementChild.remove();
+      }
+
+      rightPanel.scrollTop = 0;
+    }
 
     function fmtDate(s) {
       if (!s) return '';
@@ -890,6 +987,7 @@
       if (!confirm('Xóa toàn bộ dữ liệu?')) return;
       document.querySelectorAll('.left input,.left textarea').forEach(e => e.value = '');
       document.getElementById('session_date').value = new Date().toISOString().split('T')[0];
+      renderEmptyPreview();
     }
 
     /* ── print ── */
@@ -995,10 +1093,7 @@ Trả về HTML THUẦN (không markdown, không backtick). Dùng ĐÚNG các cl
         const data = await res.json();
         const raw = (data.content || []).map(b => b.text || '').join('');
         const clean = raw.replace(/```html/gi, '').replace(/```/g, '').trim();
-        document.getElementById('ph').style.display = 'none';
-        const rc = document.getElementById('rc');
-        rc.style.display = 'block';
-        rc.innerHTML = clean;
+        renderPaginatedPreview(clean);
       } catch (e) { alert('Lỗi kết nối. Vui lòng thử lại.'); }
       finally { hideLoad(); }
     }
@@ -1143,7 +1238,8 @@ Trả về JSON THUẦN (không markdown, không giải thích), với các key 
       const antToken = document.getElementById('antToken').value;
       const repo = document.getElementById('ghRepo').value;
       const path = document.getElementById('ghPath').value;
-      const content = document.getElementById('rc').innerHTML;
+      const content = rcEl.innerHTML;
+      const paginatedContent = pagesEl.innerHTML;
 
       if (antToken) localStorage.setItem('antToken', antToken);
       if (!token || !repo || !path) { alert('Vui lòng điền đủ thông tin GitHub!'); return; }
@@ -1160,14 +1256,13 @@ Trả về JSON THUẦN (không markdown, không giải thích), với các key 
       <head>
         <meta charset="UTF-8">
         <style>
-          body { font-family: sans-serif; padding: 40px; background: #f8f4ef; }
-          .container { background: white; max-width: 800px; margin: 0 auto; padding: 40px; border-radius: 8px; box-shadow: 0 4px 20px rgba(0,0,0,0.1); }
           ${document.querySelector('style').innerHTML}
+          body { font-family: sans-serif; padding: 40px; background: #f8f4ef; height: auto; min-height: 100vh; overflow: auto; }
         </style>
       </head>
       <body>
-        <div class="container">
-          ${content}
+        <div class="pages">
+          ${paginatedContent}
         </div>
       </body>
       </html>
@@ -1216,6 +1311,7 @@ Trả về JSON THUẦN (không markdown, không giải thích), với các key 
 
     /* init */
     document.getElementById('session_date').value = new Date().toISOString().split('T')[0];
+    renderEmptyPreview();
   </script>
 </body>
 
