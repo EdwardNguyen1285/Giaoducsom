@@ -1,465 +1,1016 @@
 <!DOCTYPE html>
 <html lang="vi">
+
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Nhận Xét Cuối Buổi Trải Nghiệm</title>
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Be+Vietnam+Pro:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
-<style>
-*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-:root{
-  --bg:#F8F4EF;--white:#FFFFFF;
-  --sage:#5A8A5F;--sage-lt:#C8DFC9;--sage-xlt:#EBF4EC;
-  --terra:#B85C38;--terra-lt:#F0C4B0;
-  --gold:#C9963A;
-  --ink:#1E1309;--mid:#4A3728;--soft:#8A7060;
-  --border:#D9CFC4;--panel: rgba(242, 237, 230, 0.6);
-  --r:20px;
-  --glass: rgba(255, 255, 255, 0.45);
-  --glass-border: rgba(255, 255, 255, 0.3);
-  --shadow-sm: 0 2px 4px rgba(0,0,0,0.05);
-  --shadow-md: 0 10px 25px -5px rgba(0,0,0,0.08), 0 8px 10px -6px rgba(0,0,0,0.05);
-  --shadow-lg: 0 20px 25px -5px rgba(0,0,0,0.1), 0 10px 10px -5px rgba(0,0,0,0.04);
-}
-body{font-family:'Be Vietnam Pro',sans-serif;background: radial-gradient(circle at top left, #FDFCFB 0%, #F8F4EF 100%);color:var(--ink);min-height:100vh; overflow: hidden;}
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Nhận Xét Cuối Buổi Trải Nghiệm</title>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Be+Vietnam+Pro:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&display=swap"
+    rel="stylesheet">
+  <style>
+    *,
+    *::before,
+    *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0
+    }
 
-/* ── SHELL ── */
-.shell{display:grid;grid-template-columns:minmax(400px, 450px) 1fr;grid-template-rows:64px 1fr;height:100vh;overflow:hidden; background: var(--bg);}
+    :root {
+      --bg: #F8F4EF;
+      --white: #FFFFFF;
+      --sage: #5A8A5F;
+      --sage-lt: #C8DFC9;
+      --sage-xlt: #EBF4EC;
+      --terra: #B85C38;
+      --terra-lt: #F0C4B0;
+      --gold: #C9963A;
+      --ink: #1E1309;
+      --mid: #4A3728;
+      --soft: #8A7060;
+      --border: #D9CFC4;
+      --panel: rgba(242, 237, 230, 0.6);
+      --r: 20px;
+      --glass: rgba(255, 255, 255, 0.45);
+      --glass-border: rgba(255, 255, 255, 0.3);
+      --shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.05);
+      --shadow-md: 0 10px 25px -5px rgba(0, 0, 0, 0.08), 0 8px 10px -6px rgba(0, 0, 0, 0.05);
+      --shadow-lg: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+    }
 
-/* ── TOPBAR ── */
-.topbar{grid-column:1/-1;background:var(--sage);display:flex;align-items:center;justify-content:space-between;padding:0 24px;box-shadow: var(--shadow-sm); z-index: 100; position: relative;}
-.topbar-title{font-family:'Playfair Display',serif;font-size:18px;color:white;font-weight:700;letter-spacing: 0.02em;}
-.topbar-actions{display:flex;gap:10px;align-items:center}
+    body {
+      font-family: 'Be Vietnam Pro', sans-serif;
+      background: radial-gradient(circle at top left, #FDFCFB 0%, #F8F4EF 100%);
+      color: var(--ink);
+      min-height: 100vh;
+      overflow: hidden;
+    }
 
-/* ── LEFT FORM ── */
-.left{
-  background: var(--panel);
-  backdrop-filter: blur(10px);
-  overflow-y:auto;
-  overflow-x:hidden;
-  padding:24px;
-  display:flex;
-  flex-direction:column;
-  gap:18px;
-  min-height:0;
-  border-right: 1px solid var(--border);
-  scrollbar-width: thin;
-  scrollbar-color: var(--sage-lt) transparent;
-}
-.left::-webkit-scrollbar {width: 4px;}
-.left::-webkit-scrollbar-thumb {background: var(--sage-lt); border-radius: 10px;}
+    /* ── SHELL ── */
+    .shell {
+      display: grid;
+      grid-template-columns: minmax(400px, 450px) 1fr;
+      grid-template-rows: 64px 1fr;
+      height: 100vh;
+      overflow: hidden;
+      background: var(--bg);
+    }
 
-/* ── RIGHT PREVIEW ── */
-.right{background:#E5E1DA;display:flex;flex-direction:column;align-items:center;padding:32px 24px 80px; overflow-y: auto;}
+    /* ── TOPBAR ── */
+    .topbar {
+      grid-column: 1/-1;
+      background: var(--sage);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 24px;
+      box-shadow: var(--shadow-sm);
+      z-index: 100;
+      position: relative;
+    }
 
-/* ── FORM CARDS ── */
-.fc{
-  background: var(--glass);
-  backdrop-filter: blur(8px);
-  border: 1px solid var(--glass-border);
-  border-radius: var(--r);
-  overflow: hidden;
-  box-shadow: var(--shadow-sm);
-  transition: transform 0.2s, box-shadow 0.2s;
-  animation: slideUp 0.4s ease-out backwards;
-}
-.fc:hover { box-shadow: var(--shadow-md); }
-@keyframes slideUp {
-  from { opacity: 0; transform: translateY(20px); }
-  to { opacity: 1; transform: translateY(0); }
-}
+    .topbar-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 18px;
+      color: white;
+      font-weight: 700;
+      letter-spacing: 0.02em;
+    }
 
-.fch{background:rgba(90,138,95,0.08);padding:14px 18px;display:flex;align-items:center;gap:10px;cursor:pointer;user-select:none; transition: background 0.2s;}
-.fch:hover { background: rgba(90,138,95,0.12); }
-.fch.t{background:rgba(184,92,56,0.08)}
-.fch.t:hover{background:rgba(184,92,56,0.12)}
-.fch.g{background:rgba(201,150,58,0.08)}
-.fch.g:hover{background:rgba(201,150,58,0.12)}
+    .topbar-actions {
+      display: flex;
+      gap: 10px;
+      align-items: center
+    }
 
-.fch-lbl{font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--sage);flex:1}
-.fch.t .fch-lbl{color:var(--terra)}.fch.g .fch-lbl{color:var(--gold)}
-.fch-arr{font-size:12px;color:var(--soft);transition:transform .3s cubic-bezier(0.4, 0, 0.2, 1)}
-.fch.open .fch-arr{transform:rotate(180deg)}
+    /* ── LEFT FORM ── */
+    .left {
+      background: var(--panel);
+      backdrop-filter: blur(10px);
+      overflow-y: auto;
+      overflow-x: hidden;
+      padding: 24px;
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+      min-height: 0;
+      border-right: 1px solid var(--border);
+      scrollbar-width: thin;
+      scrollbar-color: var(--sage-lt) transparent;
+    }
 
-.fcb{padding:20px;display:flex;flex-direction:column;gap:12px; animation: fadeIn 0.3s ease-out;}
-@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
-.fcb.h{display:none}
+    .left::-webkit-scrollbar {
+      width: 4px;
+    }
 
-/* ── FIELD ── */
-.fr{display:grid;grid-template-columns:1fr 1fr;gap:12px}
-.f{display:flex;flex-direction:column;gap:5px}
-.f label{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--soft)}
-.f input,.f textarea{
-  font-family:'Be Vietnam Pro',sans-serif;
-  font-size:14px;
-  color:var(--ink);
-  background:rgba(255,255,255,0.8);
-  border:1px solid var(--border);
-  border-radius:12px;
-  padding:10px 14px;
-  outline:none;
-  resize:vertical;
-  transition:all 0.2s;
-  width:100%;
-}
-.f input:focus,.f textarea:focus{
-  border-color:var(--sage);
-  box-shadow:0 0 0 4px rgba(90,138,95,0.15);
-  background:white;
-  transform: translateY(-1px);
-}
-.f textarea{min-height:90px;line-height:1.6}
-.sublbl{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:var(--terra);padding:6px 0 4px;border-bottom:1px solid var(--terra-lt);margin-bottom:6px; opacity: 0.8;}
+    .left::-webkit-scrollbar-thumb {
+      background: var(--sage-lt);
+      border-radius: 10px;
+    }
 
-/* ── BUTTONS ── */
-.btn{
-  font-family:'Be Vietnam Pro',sans-serif;
-  font-size:13px;
-  font-weight:600;
-  padding:10px 20px;
-  border-radius:14px;
-  cursor:pointer;
-  border:none;
-  display:inline-flex;
-  align-items:center;
-  gap:8px;
-  transition:all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
-  white-space:nowrap;
-}
-.btn:active { transform: scale(0.96); }
+    /* ── RIGHT PREVIEW ── */
+    .right {
+      background: #E5E1DA;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 32px 24px 80px;
+      overflow-y: auto;
+    }
 
-.bp{background:var(--sage);color:white;box-shadow:0 4px 12px rgba(90,138,95,.3)}
-.bp:hover{background:#4A7A50;transform:translateY(-2px);box-shadow:0 6px 16px rgba(90,138,95,.4)}
+    /* ── FORM CARDS ── */
+    .fc {
+      background: var(--glass);
+      backdrop-filter: blur(8px);
+      border: 1px solid var(--glass-border);
+      border-radius: var(--r);
+      overflow: hidden;
+      box-shadow: var(--shadow-sm);
+      transition: transform 0.2s, box-shadow 0.2s;
+      animation: slideUp 0.4s ease-out backwards;
+    }
 
-.bg{background:rgba(255,255,255,.15);color:white;border:1px solid rgba(255,255,255,.2);backdrop-filter: blur(5px);}
-.bg:hover{background:rgba(255,255,255,.25); transform: translateY(-1px);}
+    .fc:hover {
+      box-shadow: var(--shadow-md);
+    }
 
-.bv{background:#6366F1;color:white;box-shadow:0 4px 12px rgba(99,102,241,.3)}
-.bv:hover{background:#4F52D0;transform:translateY(-2px)}
+    @keyframes slideUp {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
 
-.bprint{background:var(--terra);color:white;box-shadow:0 4px 12px rgba(184,92,56,.3)}
-.bprint:hover{background:#9E4A28;transform:translateY(-2px)}
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
 
-.bgh{background:#24292e;color:white;box-shadow:0 4px 12px rgba(0,0,0,.2)}
-.bgh:hover{background:#000;transform:translateY(-2px)}
+    .fch {
+      background: rgba(90, 138, 95, 0.08);
+      padding: 14px 18px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      cursor: pointer;
+      user-select: none;
+      transition: background 0.2s;
+    }
 
-/* ── PHOTO UPLOAD ── */
-.photo-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(90px,1fr));gap:10px;margin-top:12px}
-.photo-item{
-  position:relative;
-  aspect-ratio:1;
-  border-radius:12px;
-  overflow:hidden;
-  border:1px solid var(--border);
-  background:#f0f0f0;
-  box-shadow: var(--shadow-sm);
-  animation: popIn 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-}
-@keyframes popIn { from { transform: scale(0.8); opacity: 0; } to { transform: scale(1); opacity: 1; } }
-.photo-item img{width:100%;height:100%;object-fit:cover}
-.photo-del{position:absolute;top:5px;right:5px;background:rgba(255,255,255,0.9);color:var(--terra);border:none;border-radius:50%;width:22px;height:22px;font-size:14px;font-weight:bold;cursor:pointer;display:flex;align-items:center;justify-content:center;box-shadow: var(--shadow-sm);}
-.upload-zone{border:2px dashed var(--sage-lt);border-radius:var(--r);padding:24px;text-align:center;cursor:pointer;transition:all .3s;background:rgba(90,138,95,0.03)}
-.upload-zone:hover{background:white;border-color:var(--sage); box-shadow: var(--shadow-md);}
-.upload-zone p{font-size:12px;color:var(--sage);font-weight:600;margin-top:8px}
+    .fch:hover {
+      background: rgba(90, 138, 95, 0.12);
+    }
 
-/* ── GITHUB MODAL ── */
-.modal-ov{display:none;position:fixed;inset:0;background:rgba(0,0,0,.5);backdrop-filter:blur(6px);z-index:1000;align-items:center;justify-content:center; padding: 20px;}
-.modal-ov.show{display:flex; animation: fadeIn 0.3s ease;}
-.modal{background:white;width:100%;max-width:440px;border-radius:24px;padding:32px;box-shadow:var(--shadow-lg);display:flex;flex-direction:column;gap:20px; animation: slideUp 0.4s cubic-bezier(0.4, 0, 0.2, 1);}
-.modal-h{font-size:20px;font-weight:800;color:var(--ink);display:flex;align-items:center;justify-content:space-between}
-.modal-close{cursor:pointer;font-size:28px;color:var(--soft); transition: color 0.2s;}
-.modal-close:hover { color: var(--terra); }
+    .fch.t {
+      background: rgba(184, 92, 56, 0.08)
+    }
 
-/* ── VOICE STATUS ── */
-.vs{display:none;background:#EEF2FF;border:1px solid #C7D2FE;border-radius:16px;padding:14px 18px;font-size:13px;color:#4338CA;gap:12px;align-items:flex-start; margin-bottom: 10px;}
-.vs.show{display:flex; animation: slideInLeft 0.4s cubic-bezier(0.4, 0, 0.2, 1);}
-@keyframes slideInLeft { from { transform: translateX(-30px); opacity: 0; } to { transform: translateX(0); opacity: 1; } }
+    .fch.t:hover {
+      background: rgba(184, 92, 56, 0.12)
+    }
 
-/* ── PAGE SHELL (A4) ── */
-.page{background:white;width:760px;min-height:1073px;box-shadow: var(--shadow-lg);border-radius:8px;padding:60px 64px;font-family:'Be Vietnam Pro',sans-serif;color:var(--ink); transform-origin: top center; transition: transform 0.3s ease;}
+    .fch.g {
+      background: rgba(201, 150, 58, 0.08)
+    }
 
-/* ── REPORT STYLES ── */
-.r-title{text-align:center;font-size:16px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;margin-bottom:20px; color: var(--sage);}
-.r-tbl{width:100%;border-collapse:collapse;margin-bottom:24px;font-size:14px}
-.r-tbl td{border:1.5px solid #555;padding:10px 14px;vertical-align:top;width:50%}
-.r-sec{font-size:15px;font-weight:800;margin:20px 0 10px; color: var(--terra); border-left: 4px solid var(--terra); padding-left: 12px;}
-.r-dom{font-size:14.5px;font-weight:700;margin:16px 0 8px; color: var(--sage);}
-.r-sub{font-size:14px;font-weight:700;font-style:italic;margin:12px 0 6px}
-.r-p{font-size:14px;line-height:1.8;text-align:justify;margin-bottom:8px}
-.r-italic{font-size:14px;line-height:1.8;font-style:italic;margin-top:20px; color: var(--soft); text-align: center;}
-.r-placeholder{text-align:center;color:var(--soft);padding:100px 40px;font-size:15px;line-height:2}
-.r-placeholder .big{font-size:64px;margin-bottom:20px; filter: drop-shadow(0 10px 10px rgba(0,0,0,0.1));}
+    .fch.g:hover {
+      background: rgba(201, 150, 58, 0.12)
+    }
 
-/* ── LOADING ── */
-.lov{display:none;position:fixed;inset:0;background:rgba(248,244,239,.8);backdrop-filter:blur(8px);z-index:999;flex-direction:column;align-items:center;justify-content:center;gap:16px}
-.lov.show{display:flex}
-.spin{width:48px;height:48px;border:4px solid var(--sage-lt);border-top-color:var(--sage);border-radius:50%;animation:sp .8s cubic-bezier(0.6, 0.2, 0.4, 0.8) infinite}
-@keyframes sp{to{transform:rotate(360deg)}}
-.slbl{font-size:16px;color:var(--mid);font-weight:700; letter-spacing: 0.05em;}
+    .fch-lbl {
+      font-size: 12px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: .1em;
+      color: var(--sage);
+      flex: 1
+    }
 
-/* ── PRINT ── */
-@media print{
-  @page{margin:0;size:A4}
-  body{background:white!important}
-  .shell{display:block!important;height:auto!important}
-  .topbar,.left,.lov{display:none!important}
-  .right{background:white!important;padding:0!important;display:block!important;overflow:visible!important}
-  .page{width:100%!important;min-height:auto!important;box-shadow:none!important;border-radius:0!important;padding:22px 28px!important;margin:0!important}
-  .r-placeholder{display:none!important}
-}
+    .fch.t .fch-lbl {
+      color: var(--terra)
+    }
 
-/* ── MOBILE ── */
-@media(max-width:860px){
-  .shell{grid-template-columns:1fr;grid-template-rows:56px auto auto;height:auto;overflow:auto}
-  .left{height:auto;overflow:visible}
-  .right{padding:16px 6px 40px}
-  .page{width:100%;padding:20px 16px}
-}
-</style>
+    .fch.g .fch-lbl {
+      color: var(--gold)
+    }
+
+    .fch-arr {
+      font-size: 12px;
+      color: var(--soft);
+      transition: transform .3s cubic-bezier(0.4, 0, 0.2, 1)
+    }
+
+    .fch.open .fch-arr {
+      transform: rotate(180deg)
+    }
+
+    .fcb {
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      animation: fadeIn 0.3s ease-out;
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+      }
+
+      to {
+        opacity: 1;
+      }
+    }
+
+    .fcb.h {
+      display: none
+    }
+
+    /* ── FIELD ── */
+    .fr {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px
+    }
+
+    .f {
+      display: flex;
+      flex-direction: column;
+      gap: 5px
+    }
+
+    .f label {
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: .08em;
+      color: var(--soft)
+    }
+
+    .f input,
+    .f textarea {
+      font-family: 'Be Vietnam Pro', sans-serif;
+      font-size: 14px;
+      color: var(--ink);
+      background: rgba(255, 255, 255, 0.8);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 10px 14px;
+      outline: none;
+      resize: vertical;
+      transition: all 0.2s;
+      width: 100%;
+    }
+
+    .f input:focus,
+    .f textarea:focus {
+      border-color: var(--sage);
+      box-shadow: 0 0 0 4px rgba(90, 138, 95, 0.15);
+      background: white;
+      transform: translateY(-1px);
+    }
+
+    .f textarea {
+      min-height: 90px;
+      line-height: 1.6
+    }
+
+    .sublbl {
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: .07em;
+      color: var(--terra);
+      padding: 6px 0 4px;
+      border-bottom: 1px solid var(--terra-lt);
+      margin-bottom: 6px;
+      opacity: 0.8;
+    }
+
+    /* ── BUTTONS ── */
+    .btn {
+      font-family: 'Be Vietnam Pro', sans-serif;
+      font-size: 13px;
+      font-weight: 600;
+      padding: 10px 20px;
+      border-radius: 14px;
+      cursor: pointer;
+      border: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+      white-space: nowrap;
+    }
+
+    .btn:active {
+      transform: scale(0.96);
+    }
+
+    .bp {
+      background: var(--sage);
+      color: white;
+      box-shadow: 0 4px 12px rgba(90, 138, 95, .3)
+    }
+
+    .bp:hover {
+      background: #4A7A50;
+      transform: translateY(-2px);
+      box-shadow: 0 6px 16px rgba(90, 138, 95, .4)
+    }
+
+    .bg {
+      background: rgba(255, 255, 255, .15);
+      color: white;
+      border: 1px solid rgba(255, 255, 255, .2);
+      backdrop-filter: blur(5px);
+    }
+
+    .bg:hover {
+      background: rgba(255, 255, 255, .25);
+      transform: translateY(-1px);
+    }
+
+    .bv {
+      background: #6366F1;
+      color: white;
+      box-shadow: 0 4px 12px rgba(99, 102, 241, .3)
+    }
+
+    .bv:hover {
+      background: #4F52D0;
+      transform: translateY(-2px)
+    }
+
+    .bprint {
+      background: var(--terra);
+      color: white;
+      box-shadow: 0 4px 12px rgba(184, 92, 56, .3)
+    }
+
+    .bprint:hover {
+      background: #9E4A28;
+      transform: translateY(-2px)
+    }
+
+    .bgh {
+      background: #24292e;
+      color: white;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, .2)
+    }
+
+    .bgh:hover {
+      background: #000;
+      transform: translateY(-2px)
+    }
+
+    /* ── PHOTO UPLOAD ── */
+    .photo-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(90px, 1fr));
+      gap: 10px;
+      margin-top: 12px
+    }
+
+    .photo-item {
+      position: relative;
+      aspect-ratio: 1;
+      border-radius: 12px;
+      overflow: hidden;
+      border: 1px solid var(--border);
+      background: #f0f0f0;
+      box-shadow: var(--shadow-sm);
+      animation: popIn 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    }
+
+    @keyframes popIn {
+      from {
+        transform: scale(0.8);
+        opacity: 0;
+      }
+
+      to {
+        transform: scale(1);
+        opacity: 1;
+      }
+    }
+
+    .photo-item img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover
+    }
+
+    .photo-del {
+      position: absolute;
+      top: 5px;
+      right: 5px;
+      background: rgba(255, 255, 255, 0.9);
+      color: var(--terra);
+      border: none;
+      border-radius: 50%;
+      width: 22px;
+      height: 22px;
+      font-size: 14px;
+      font-weight: bold;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: var(--shadow-sm);
+    }
+
+    .upload-zone {
+      border: 2px dashed var(--sage-lt);
+      border-radius: var(--r);
+      padding: 24px;
+      text-align: center;
+      cursor: pointer;
+      transition: all .3s;
+      background: rgba(90, 138, 95, 0.03)
+    }
+
+    .upload-zone:hover {
+      background: white;
+      border-color: var(--sage);
+      box-shadow: var(--shadow-md);
+    }
+
+    .upload-zone p {
+      font-size: 12px;
+      color: var(--sage);
+      font-weight: 600;
+      margin-top: 8px
+    }
+
+    /* ── GITHUB MODAL ── */
+    .modal-ov {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, .5);
+      backdrop-filter: blur(6px);
+      z-index: 1000;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+
+    .modal-ov.show {
+      display: flex;
+      animation: fadeIn 0.3s ease;
+    }
+
+    .modal {
+      background: white;
+      width: 100%;
+      max-width: 440px;
+      border-radius: 24px;
+      padding: 32px;
+      box-shadow: var(--shadow-lg);
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+      animation: slideUp 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .modal-h {
+      font-size: 20px;
+      font-weight: 800;
+      color: var(--ink);
+      display: flex;
+      align-items: center;
+      justify-content: space-between
+    }
+
+    .modal-close {
+      cursor: pointer;
+      font-size: 28px;
+      color: var(--soft);
+      transition: color 0.2s;
+    }
+
+    .modal-close:hover {
+      color: var(--terra);
+    }
+
+    /* ── VOICE STATUS ── */
+    .vs {
+      display: none;
+      background: #EEF2FF;
+      border: 1px solid #C7D2FE;
+      border-radius: 16px;
+      padding: 14px 18px;
+      font-size: 13px;
+      color: #4338CA;
+      gap: 12px;
+      align-items: flex-start;
+      margin-bottom: 10px;
+    }
+
+    .vs.show {
+      display: flex;
+      animation: slideInLeft 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    @keyframes slideInLeft {
+      from {
+        transform: translateX(-30px);
+        opacity: 0;
+      }
+
+      to {
+        transform: translateX(0);
+        opacity: 1;
+      }
+    }
+
+    /* ── PAGE SHELL (A4) ── */
+    .page {
+      background: white;
+      width: 760px;
+      min-height: 1073px;
+      box-shadow: var(--shadow-lg);
+      border-radius: 8px;
+      padding: 60px 64px;
+      font-family: 'Be Vietnam Pro', sans-serif;
+      color: var(--ink);
+      transform-origin: top center;
+      transition: transform 0.3s ease;
+    }
+
+    /* ── REPORT STYLES ── */
+    .r-title {
+      text-align: center;
+      font-size: 16px;
+      font-weight: 800;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      margin-bottom: 20px;
+      color: var(--sage);
+    }
+
+    .r-tbl {
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 24px;
+      font-size: 14px
+    }
+
+    .r-tbl td {
+      border: 1.5px solid #555;
+      padding: 10px 14px;
+      vertical-align: top;
+      width: 50%
+    }
+
+    .r-sec {
+      font-size: 15px;
+      font-weight: 800;
+      margin: 20px 0 10px;
+      color: var(--terra);
+      border-left: 4px solid var(--terra);
+      padding-left: 12px;
+    }
+
+    .r-dom {
+      font-size: 14.5px;
+      font-weight: 700;
+      margin: 16px 0 8px;
+      color: var(--sage);
+    }
+
+    .r-sub {
+      font-size: 14px;
+      font-weight: 700;
+      font-style: italic;
+      margin: 12px 0 6px
+    }
+
+    .r-p {
+      font-size: 14px;
+      line-height: 1.8;
+      text-align: justify;
+      margin-bottom: 8px
+    }
+
+    .r-italic {
+      font-size: 14px;
+      line-height: 1.8;
+      font-style: italic;
+      margin-top: 20px;
+      color: var(--soft);
+      text-align: center;
+    }
+
+    .r-placeholder {
+      text-align: center;
+      color: var(--soft);
+      padding: 100px 40px;
+      font-size: 15px;
+      line-height: 2
+    }
+
+    .r-placeholder .big {
+      font-size: 64px;
+      margin-bottom: 20px;
+      filter: drop-shadow(0 10px 10px rgba(0, 0, 0, 0.1));
+    }
+
+    /* ── LOADING ── */
+    .lov {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(248, 244, 239, .8);
+      backdrop-filter: blur(8px);
+      z-index: 999;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 16px
+    }
+
+    .lov.show {
+      display: flex
+    }
+
+    .spin {
+      width: 48px;
+      height: 48px;
+      border: 4px solid var(--sage-lt);
+      border-top-color: var(--sage);
+      border-radius: 50%;
+      animation: sp .8s cubic-bezier(0.6, 0.2, 0.4, 0.8) infinite
+    }
+
+    @keyframes sp {
+      to {
+        transform: rotate(360deg)
+      }
+    }
+
+    .slbl {
+      font-size: 16px;
+      color: var(--mid);
+      font-weight: 700;
+      letter-spacing: 0.05em;
+    }
+
+    /* ── PRINT ── */
+    @media print {
+      @page {
+        margin: 0;
+        size: A4
+      }
+
+      body {
+        background: white !important
+      }
+
+      .shell {
+        display: block !important;
+        height: auto !important
+      }
+
+      .topbar,
+      .left,
+      .lov {
+        display: none !important
+      }
+
+      .right {
+        background: white !important;
+        padding: 0 !important;
+        display: block !important;
+        overflow: visible !important
+      }
+
+      .page {
+        width: 100% !important;
+        min-height: auto !important;
+        box-shadow: none !important;
+        border-radius: 0 !important;
+        padding: 22px 28px !important;
+        margin: 0 !important
+      }
+
+      .r-placeholder {
+        display: none !important
+      }
+    }
+
+    /* ── MOBILE ── */
+    @media(max-width:860px) {
+      .shell {
+        grid-template-columns: 1fr;
+        grid-template-rows: 56px auto auto;
+        height: auto;
+        overflow: auto
+      }
+
+      .left {
+        height: auto;
+        overflow: visible
+      }
+
+      .right {
+        padding: 16px 6px 40px
+      }
+
+      .page {
+        width: 100%;
+        padding: 20px 16px
+      }
+    }
+  </style>
 </head>
+
 <body>
 
-<div class="lov" id="lov"><div class="spin"></div><div class="slbl" id="slbl">Đang xử lý...</div></div>
-
-<div class="shell">
-
-<!-- TOPBAR -->
-<div class="topbar">
-  <div class="topbar-title">🌱 Nhận Xét Cuối Buổi Trải Nghiệm</div>
-  <div class="topbar-actions">
-    <button class="btn bv" onclick="document.getElementById('audioFile').click()">📂 Upload ghi âm điền form</button>
-    <input type="file" id="audioFile" accept="audio/*,video/mp4" style="display:none" onchange="handleAudioUpload(this)">
-    <button class="btn bp" onclick="gen()">✨ Tạo báo cáo</button>
-    <button class="btn bgh" onclick="toggleGH()">☁️ Lưu lên GitHub</button>
-    <button class="btn bprint" onclick="doPrint()">🖨️ In / PDF</button>
-  </div>
-</div>
-
-<!-- GITHUB MODAL -->
-<div class="modal-ov" id="ghModal">
-  <div class="modal">
-    <div class="modal-h"><span>⚙️ Cấu hình Cloud & AI</span><span class="modal-close" onclick="toggleGH()">&times;</span></div>
-    <div class="f"><label>Anthropic API Key (để tạo báo cáo AI)</label><input type="password" id="antToken" placeholder="sk-ant-..."></div>
-    <div class="f"><label>GitHub Personal Access Token (để lưu trữ)</label><input type="password" id="ghToken" placeholder="ghp_xxxxxxxxxxxx"></div>
-    <div class="f"><label>Repository (owner/repo)</label><input id="ghRepo" value="EdwardNguyen1285/Giaoducsom"></div>
-    <div class="f"><label>Đường dẫn lưu file (vd: reports/report-1.html)</label><input id="ghPath" placeholder="reports/report-1.html"></div>
-    <button class="btn bp" style="width:100%;justify-content:center" onclick="saveToGitHub()">🚀 Xác nhận & Tải lên</button>
-    <div class="vt" style="text-align:center">Token sẽ được lưu trong trình duyệt của bạn.</div>
-  </div>
-</div>
-
-<!-- LEFT: FORM -->
-<div class="left">
-
-  <div class="vs" id="vs">
-    <div class="dot"></div>
-    <div>
-      <div style="font-weight:700;margin-bottom:2px" id="vsTitle">Đang xử lý file ghi âm...</div>
-      <div class="vt" id="vt">Vui lòng chờ trong giây lát</div>
-    </div>
+  <div class="lov" id="lov">
+    <div class="spin"></div>
+    <div class="slbl" id="slbl">Đang xử lý...</div>
   </div>
 
-  <!-- Thông tin chung -->
-  <div class="fc">
-    <div class="fch open" onclick="tc(this)"><span>👶</span><span class="fch-lbl">Thông tin chung</span><span class="fch-arr">▼</span></div>
-    <div class="fcb">
-      <div class="fr">
-        <div class="f"><label>Họ và tên bé</label><input id="baby_name" placeholder="Phạm Kha Tú"></div>
-        <div class="f"><label>Biệt danh</label><input id="baby_nickname" placeholder="Gạo"></div>
-      </div>
-      <div class="fr">
-        <div class="f"><label>Ngày sinh</label><input type="date" id="baby_dob"></div>
-        <div class="f"><label>Ngày trải nghiệm</label><input type="date" id="session_date"></div>
-      </div>
-      <div class="fr">
-        <div class="f"><label>Giáo viên</label><input id="teacher_name" placeholder="Nguyễn Lan Anh"></div>
-        <div class="f"><label>Người đồng hành</label><input id="companion" placeholder="bà, mẹ, bố..."></div>
+  <div class="shell">
+
+    <!-- TOPBAR -->
+    <div class="topbar">
+      <div class="topbar-title">🌱 Nhận Xét Cuối Buổi Trải Nghiệm</div>
+      <div class="topbar-actions">
+        <button class="btn bv" onclick="document.getElementById('audioFile').click()">📂 Upload ghi âm điền
+          form</button>
+        <input type="file" id="audioFile" accept="audio/*,video/mp4" style="display:none"
+          onchange="handleAudioUpload(this)">
+        <button class="btn bp" onclick="gen()">✨ Tạo báo cáo</button>
+        <button class="btn bgh" onclick="toggleGH()">☁️ Lưu lên GitHub</button>
+        <button class="btn bprint" onclick="doPrint()">🖨️ In / PDF</button>
       </div>
     </div>
-  </div>
 
-  <!-- Nhận xét chung -->
-  <div class="fc">
-    <div class="fch open" onclick="tc(this)"><span>📋</span><span class="fch-lbl">I. Nhận xét chung</span><span class="fch-arr">▼</span></div>
-    <div class="fcb">
-      <div class="f"><label>Thái độ ban đầu & quá trình thích nghi</label>
-        <textarea id="gen_general" placeholder="VD: Bé cẩn trọng, cần hỗ trợ từ bà, dần thích nghi qua quan sát..."></textarea></div>
-      <div class="f"><label>Cảm xúc kết thúc buổi</label>
-        <textarea id="gen_end" placeholder="VD: Tiếc nuối khi kết thúc, muốn chơi thêm..."></textarea></div>
-    </div>
-  </div>
-
-  <!-- Lĩnh vực -->
-  <div class="fc">
-    <div class="fch t open" onclick="tc(this)"><span>🧠</span><span class="fch-lbl">II. Các lĩnh vực phát triển</span><span class="fch-arr">▼</span></div>
-    <div class="fcb">
-      <div class="sublbl">Nhận thức</div>
-      <div class="f"><label>Tập trung, quan sát, khám phá, hoạt động nổi bật</label>
-        <textarea id="cog_all" placeholder="VD: Tập trung xem thẻ kích thích não phải. Hứng thú sensory hạt ngô: xúc xẻng, đổ cối xay khủng long. Quan sát cô kỹ trước khi tham gia..."></textarea></div>
-
-      <div class="sublbl">Vận động thô</div>
-      <div class="f"><label>Trong buổi học & từ gia đình</label>
-        <textarea id="gross_all" placeholder="VD: Chủ yếu ngồi dựa bà, chưa quan sát rõ. Gia đình: đã đi độc lập. Bước đầu tham gia không gian chơi khi có hỗ trợ..."></textarea></div>
-
-      <div class="sublbl">Vận động tinh</div>
-      <div class="f"><label>Hoạt động tay / phối hợp tay-mắt</label>
-        <textarea id="fine_all" placeholder="VD: Cầm que gõ đàn xylophone, thử cầm búa đập bóng gỗ (lực tay còn nhẹ). Xúc đổ hạt ngô - phối hợp tay mắt đang hình thành..."></textarea></div>
-
-      <div class="sublbl">Ngôn ngữ</div>
-      <div class="f"><label>Trong buổi & theo gia đình</label>
-        <textarea id="lang_all" placeholder="VD: Gia đình: bé nói câu 3 từ (tốt ở 15 tháng). Trong buổi chưa thể hiện nhiều do còn lạ cô..."></textarea></div>
-
-      <div class="sublbl">Tình cảm – Xã hội</div>
-      <div class="f"><label>Giao tiếp & phản ứng xã hội</label>
-        <textarea id="social_all" placeholder="VD: Cẩn trọng với người lạ (phù hợp độ tuổi). Có bà bên cạnh cảm thấy an toàn. Tiếc nuối khi kết thúc..."></textarea></div>
-    </div>
-  </div>
-
-  <!-- Đề xuất -->
-  <div class="fc">
-    <div class="fch g open" onclick="tc(this)"><span>🌟</span><span class="fch-lbl">III. Đề xuất định hướng</span><span class="fch-arr">▼</span></div>
-    <div class="fcb">
-      <div class="sublbl">Nhận thức</div>
-      <div class="f"><textarea id="rec_cog" placeholder="Duy trì sensory, học cụ hiệu ứng rõ, xem thẻ đọc sách ngắn..."></textarea></div>
-
-      <div class="sublbl">Vận động thô</div>
-      <div class="f"><textarea id="rec_gross" placeholder="Tạo không gian đi lại tự do, lăn bóng, đẩy kéo đồ chơi..."></textarea></div>
-
-      <div class="sublbl">Vận động tinh</div>
-      <div class="f"><textarea id="rec_fine" placeholder="Xúc đổ, thả vật, xếp chồng, gõ đàn, hỗ trợ cầm tay..."></textarea></div>
-
-      <div class="sublbl">Ngôn ngữ</div>
-      <div class="f"><textarea id="rec_lang" placeholder="Trò chuyện, bắt chước âm thanh, đọc sách mỗi ngày..."></textarea></div>
-
-      <div class="sublbl">Tình cảm – Xã hội</div>
-      <div class="f"><textarea id="rec_social" placeholder="Thời gian làm quen, người thân đồng hành, giãn dần khoảng cách..."></textarea></div>
-    </div>
-  </div>
-
-  <!-- Kết luận -->
-  <div class="fc">
-    <div class="fch open" onclick="tc(this)"><span>✨</span><span class="fch-lbl">IV. Kết luận & Lời nhắn</span><span class="fch-arr">▼</span></div>
-    <div class="fcb">
-      <div class="f"><label>Nhận xét tổng thể & tiềm năng</label>
-        <textarea id="conclusion" placeholder="VD: Nền tảng tốt, đặc biệt quan sát, tập trung, hứng thú. Cần thêm thời gian thích nghi..."></textarea></div>
-      <div class="f"><label>Lời cảm ơn / nhắn gửi phụ huynh</label>
-        <textarea id="closing" placeholder="VD: Cảm ơn gia đình tin tưởng. Sự hỗ trợ từ bà giúp bé cảm thấy an toàn..."></textarea></div>
-    </div>
-  </div>
-
-  <!-- Hình ảnh hoạt động -->
-  <div class="fc">
-    <div class="fch open" onclick="tc(this)"><span>📸</span><span class="fch-lbl">V. Hình ảnh hoạt động</span><span class="fch-arr">▼</span></div>
-    <div class="fcb">
-      <div class="upload-zone" onclick="document.getElementById('childPhotos').click()">
-        <span style="font-size:24px">🖼️</span>
-        <p>Nhấn để tải lên hoặc kéo thả ảnh của bé</p>
-        <input type="file" id="childPhotos" multiple accept="image/*" style="display:none" onchange="handlePhotoUpload(this)">
+    <!-- GITHUB MODAL -->
+    <div class="modal-ov" id="ghModal">
+      <div class="modal">
+        <div class="modal-h"><span>⚙️ Cấu hình Cloud & AI</span><span class="modal-close"
+            onclick="toggleGH()">&times;</span></div>
+        <div class="f"><label>Anthropic API Key (để tạo báo cáo AI)</label><input type="password" id="antToken"
+            placeholder="sk-ant-..."></div>
+        <div class="f"><label>GitHub Personal Access Token (để lưu trữ)</label><input type="password" id="ghToken"
+            placeholder="ghp_xxxxxxxxxxxx"></div>
+        <div class="f"><label>Repository (owner/repo)</label><input id="ghRepo" value="EdwardNguyen1285/Giaoducsom">
+        </div>
+        <div class="f"><label>Đường dẫn lưu file (vd: reports/report-1.html)</label><input id="ghPath"
+            placeholder="reports/report-1.html"></div>
+        <button class="btn bp" style="width:100%;justify-content:center" onclick="saveToGitHub()">🚀 Xác nhận & Tải
+          lên</button>
+        <div class="vt" style="text-align:center">Token sẽ được lưu trong trình duyệt của bạn.</div>
       </div>
-      <div class="photo-grid" id="photoGrid"></div>
     </div>
-  </div>
 
-  <div style="display:flex;gap:8px;padding-top:6px">
-    <button class="btn bp" style="flex:1" onclick="gen()">✨ Tạo báo cáo bằng AI</button>
-    <button class="btn" style="background:var(--panel);color:var(--mid);border:1px solid var(--border)" onclick="clr()">🗑️ Xóa</button>
-  </div>
+    <!-- LEFT: FORM -->
+    <div class="left">
 
-</div><!-- /left -->
+      <div class="vs" id="vs">
+        <div class="dot"></div>
+        <div>
+          <div style="font-weight:700;margin-bottom:2px" id="vsTitle">Đang xử lý file ghi âm...</div>
+          <div class="vt" id="vt">Vui lòng chờ trong giây lát</div>
+        </div>
+      </div>
 
-<!-- RIGHT: PREVIEW -->
-<div class="right" id="rightPanel">
-  <div class="page" id="page">
-    <div class="r-placeholder" id="ph">
-      <div class="big">📄</div>
-      <strong>Điền thông tin bên trái</strong><br>
-      rồi nhấn <strong>"✨ Tạo báo cáo"</strong><br>
-      để xem báo cáo hoàn chỉnh tại đây
+      <!-- Thông tin chung -->
+      <div class="fc">
+        <div class="fch open" onclick="tc(this)"><span>👶</span><span class="fch-lbl">Thông tin chung</span><span
+            class="fch-arr">▼</span></div>
+        <div class="fcb">
+          <div class="fr">
+            <div class="f"><label>Họ và tên bé</label><input id="baby_name" placeholder="Phạm Kha Tú"></div>
+            <div class="f"><label>Biệt danh</label><input id="baby_nickname" placeholder="Gạo"></div>
+          </div>
+          <div class="fr">
+            <div class="f"><label>Ngày sinh</label><input type="date" id="baby_dob"></div>
+            <div class="f"><label>Ngày trải nghiệm</label><input type="date" id="session_date"></div>
+          </div>
+          <div class="fr">
+            <div class="f"><label>Giáo viên</label><input id="teacher_name" placeholder="Nguyễn Lan Anh"></div>
+            <div class="f"><label>Người đồng hành</label><input id="companion" placeholder="bà, mẹ, bố..."></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Nhận xét chung -->
+      <div class="fc">
+        <div class="fch open" onclick="tc(this)"><span>📋</span><span class="fch-lbl">I. Nhận xét chung</span><span
+            class="fch-arr">▼</span></div>
+        <div class="fcb">
+          <div class="f"><label>Thái độ ban đầu & quá trình thích nghi</label>
+            <textarea id="gen_general"
+              placeholder="VD: Bé cẩn trọng, cần hỗ trợ từ bà, dần thích nghi qua quan sát..."></textarea>
+          </div>
+          <div class="f"><label>Cảm xúc kết thúc buổi</label>
+            <textarea id="gen_end" placeholder="VD: Tiếc nuối khi kết thúc, muốn chơi thêm..."></textarea>
+          </div>
+        </div>
+      </div>
+
+      <!-- Lĩnh vực -->
+      <div class="fc">
+        <div class="fch t open" onclick="tc(this)"><span>🧠</span><span class="fch-lbl">II. Các lĩnh vực phát
+            triển</span><span class="fch-arr">▼</span></div>
+        <div class="fcb">
+          <div class="sublbl">Nhận thức</div>
+          <div class="f"><label>Tập trung, quan sát, khám phá, hoạt động nổi bật</label>
+            <textarea id="cog_all"
+              placeholder="VD: Tập trung xem thẻ kích thích não phải. Hứng thú sensory hạt ngô: xúc xẻng, đổ cối xay khủng long. Quan sát cô kỹ trước khi tham gia..."></textarea>
+          </div>
+
+          <div class="sublbl">Vận động thô</div>
+          <div class="f"><label>Trong buổi học & từ gia đình</label>
+            <textarea id="gross_all"
+              placeholder="VD: Chủ yếu ngồi dựa bà, chưa quan sát rõ. Gia đình: đã đi độc lập. Bước đầu tham gia không gian chơi khi có hỗ trợ..."></textarea>
+          </div>
+
+          <div class="sublbl">Vận động tinh</div>
+          <div class="f"><label>Hoạt động tay / phối hợp tay-mắt</label>
+            <textarea id="fine_all"
+              placeholder="VD: Cầm que gõ đàn xylophone, thử cầm búa đập bóng gỗ (lực tay còn nhẹ). Xúc đổ hạt ngô - phối hợp tay mắt đang hình thành..."></textarea>
+          </div>
+
+          <div class="sublbl">Ngôn ngữ</div>
+          <div class="f"><label>Trong buổi & theo gia đình</label>
+            <textarea id="lang_all"
+              placeholder="VD: Gia đình: bé nói câu 3 từ (tốt ở 15 tháng). Trong buổi chưa thể hiện nhiều do còn lạ cô..."></textarea>
+          </div>
+
+          <div class="sublbl">Tình cảm – Xã hội</div>
+          <div class="f"><label>Giao tiếp & phản ứng xã hội</label>
+            <textarea id="social_all"
+              placeholder="VD: Cẩn trọng với người lạ (phù hợp độ tuổi). Có bà bên cạnh cảm thấy an toàn. Tiếc nuối khi kết thúc..."></textarea>
+          </div>
+        </div>
+      </div>
+
+      <!-- Đề xuất -->
+      <div class="fc">
+        <div class="fch g open" onclick="tc(this)"><span>🌟</span><span class="fch-lbl">III. Đề xuất định
+            hướng</span><span class="fch-arr">▼</span></div>
+        <div class="fcb">
+          <div class="sublbl">Nhận thức</div>
+          <div class="f"><textarea id="rec_cog"
+              placeholder="Duy trì sensory, học cụ hiệu ứng rõ, xem thẻ đọc sách ngắn..."></textarea></div>
+
+          <div class="sublbl">Vận động thô</div>
+          <div class="f"><textarea id="rec_gross"
+              placeholder="Tạo không gian đi lại tự do, lăn bóng, đẩy kéo đồ chơi..."></textarea></div>
+
+          <div class="sublbl">Vận động tinh</div>
+          <div class="f"><textarea id="rec_fine"
+              placeholder="Xúc đổ, thả vật, xếp chồng, gõ đàn, hỗ trợ cầm tay..."></textarea></div>
+
+          <div class="sublbl">Ngôn ngữ</div>
+          <div class="f"><textarea id="rec_lang"
+              placeholder="Trò chuyện, bắt chước âm thanh, đọc sách mỗi ngày..."></textarea></div>
+
+          <div class="sublbl">Tình cảm – Xã hội</div>
+          <div class="f"><textarea id="rec_social"
+              placeholder="Thời gian làm quen, người thân đồng hành, giãn dần khoảng cách..."></textarea></div>
+        </div>
+      </div>
+
+      <!-- Kết luận -->
+      <div class="fc">
+        <div class="fch open" onclick="tc(this)"><span>✨</span><span class="fch-lbl">IV. Kết luận & Lời nhắn</span><span
+            class="fch-arr">▼</span></div>
+        <div class="fcb">
+          <div class="f"><label>Nhận xét tổng thể & tiềm năng</label>
+            <textarea id="conclusion"
+              placeholder="VD: Nền tảng tốt, đặc biệt quan sát, tập trung, hứng thú. Cần thêm thời gian thích nghi..."></textarea>
+          </div>
+          <div class="f"><label>Lời cảm ơn / nhắn gửi phụ huynh</label>
+            <textarea id="closing"
+              placeholder="VD: Cảm ơn gia đình tin tưởng. Sự hỗ trợ từ bà giúp bé cảm thấy an toàn..."></textarea>
+          </div>
+        </div>
+      </div>
+
+      <!-- Hình ảnh hoạt động -->
+      <div class="fc">
+        <div class="fch open" onclick="tc(this)"><span>📸</span><span class="fch-lbl">V. Hình ảnh hoạt động</span><span
+            class="fch-arr">▼</span></div>
+        <div class="fcb">
+          <div class="upload-zone" onclick="document.getElementById('childPhotos').click()">
+            <span style="font-size:24px">🖼️</span>
+            <p>Nhấn để tải lên hoặc kéo thả ảnh của bé</p>
+            <input type="file" id="childPhotos" multiple accept="image/*" style="display:none"
+              onchange="handlePhotoUpload(this)">
+          </div>
+          <div class="photo-grid" id="photoGrid"></div>
+        </div>
+      </div>
+
+      <div style="display:flex;gap:8px;padding-top:6px">
+        <button class="btn bp" style="flex:1" onclick="gen()">✨ Tạo báo cáo bằng AI</button>
+        <button class="btn" style="background:var(--panel);color:var(--mid);border:1px solid var(--border)"
+          onclick="clr()">🗑️ Xóa</button>
+      </div>
+
+    </div><!-- /left -->
+
+    <!-- RIGHT: PREVIEW -->
+    <div class="right" id="rightPanel">
+      <div class="page" id="page">
+        <div class="r-placeholder" id="ph">
+          <div class="big">📄</div>
+          <strong>Điền thông tin bên trái</strong><br>
+          rồi nhấn <strong>"✨ Tạo báo cáo"</strong><br>
+          để xem báo cáo hoàn chỉnh tại đây
+        </div>
+        <div id="rc" style="display:none"></div>
+      </div>
     </div>
-    <div id="rc" style="display:none"></div>
-  </div>
-</div>
 
-</div><!-- /shell -->
+  </div><!-- /shell -->
 
-<script>
-/* ── helpers ── */
-const G = id => (document.getElementById(id)?.value||'').trim();
+  <script>
+    /* ── helpers ── */
+    const G = id => (document.getElementById(id)?.value || '').trim();
 
-function fmtDate(s){
-  if(!s) return '';
-  const[y,m,d]=s.split('-');
-  return `${d}/${m}/${y}`;
-}
-function calcAge(dob){
-  if(!dob) return null;
-  const b=new Date(dob),n=new Date();
-  let mo=(n.getFullYear()-b.getFullYear())*12+(n.getMonth()-b.getMonth());
-  if(n.getDate()<b.getDate()) mo--;
-  if(mo<12) return `${mo} tháng tuổi`;
-  const yr=Math.floor(mo/12),rm=mo%12;
-  return rm?`${yr} tuổi ${rm} tháng`:`${yr} tuổi`;
-}
+    function fmtDate(s) {
+      if (!s) return '';
+      const [y, m, d] = s.split('-');
+      return `${d}/${m}/${y}`;
+    }
+    function calcAge(dob) {
+      if (!dob) return null;
+      const b = new Date(dob), n = new Date();
+      let mo = (n.getFullYear() - b.getFullYear()) * 12 + (n.getMonth() - b.getMonth());
+      if (n.getDate() < b.getDate()) mo--;
+      if (mo < 12) return `${mo} tháng tuổi`;
+      const yr = Math.floor(mo / 12), rm = mo % 12;
+      return rm ? `${yr} tuổi ${rm} tháng` : `${yr} tuổi`;
+    }
 
-/* ── toggle card ── */
-function tc(h){
-  h.classList.toggle('open');
-  h.nextElementSibling.classList.toggle('h');
-}
+    /* ── toggle card ── */
+    function tc(h) {
+      h.classList.toggle('open');
+      h.nextElementSibling.classList.toggle('h');
+    }
 
-/* ── clear ── */
-function clr(){
-  if(!confirm('Xóa toàn bộ dữ liệu?')) return;
-  document.querySelectorAll('.left input,.left textarea').forEach(e=>e.value='');
-  document.getElementById('session_date').value=new Date().toISOString().split('T')[0];
-}
+    /* ── clear ── */
+    function clr() {
+      if (!confirm('Xóa toàn bộ dữ liệu?')) return;
+      document.querySelectorAll('.left input,.left textarea').forEach(e => e.value = '');
+      document.getElementById('session_date').value = new Date().toISOString().split('T')[0];
+    }
 
-/* ── print ── */
-function doPrint(){
-  const rc=document.getElementById('rc');
-  if(!rc.innerHTML.trim()){
-    alert('Vui lòng tạo báo cáo trước khi in!');
-    return;
-  }
-  window.print();
-}
+    /* ── print ── */
+    function doPrint() {
+      const rc = document.getElementById('rc');
+      if (!rc.innerHTML.trim()) {
+        alert('Vui lòng tạo báo cáo trước khi in!');
+        return;
+      }
+      window.print();
+    }
 
-/* ── loading ── */
-function showLoad(msg){document.getElementById('slbl').textContent=msg;document.getElementById('lov').classList.add('show')}
-function hideLoad(){document.getElementById('lov').classList.remove('show')}
+    /* ── loading ── */
+    function showLoad(msg) { document.getElementById('slbl').textContent = msg; document.getElementById('lov').classList.add('show') }
+    function hideLoad() { document.getElementById('lov').classList.remove('show') }
 
-/* ── GENERATE REPORT ── */
-async function gen(){
-  const name=G('baby_name');
-  if(!name){alert('Vui lòng nhập họ và tên bé!');return;}
-  const nick=G('baby_nickname');
-  const call=nick||name.split(' ').pop();
-  const age=calcAge(G('baby_dob'));
+    /* ── GENERATE REPORT ── */
+    async function gen() {
+      const name = G('baby_name');
+      if (!name) { alert('Vui lòng nhập họ và tên bé!'); return; }
+      const nick = G('baby_nickname');
+      const call = nick || name.split(' ').pop();
+      const age = calcAge(G('baby_dob'));
 
-  const prompt=`Bạn là giáo viên giáo dục phát triển sớm, viết báo cáo nhận xét cuối buổi trải nghiệm gửi phụ huynh.
+      const prompt = `Bạn là giáo viên giáo dục phát triển sớm, viết báo cáo nhận xét cuối buổi trải nghiệm gửi phụ huynh.
 Văn phong: chuyên nghiệp, ấm áp, khích lệ, văn xuôi liên kết (không bullet). Gọi tên bé là "${call}" xuyên suốt.
 
 THÔNG TIN:
-Tên bé: ${name}${nick?` (${nick})`:''}${age?`, ${age}`:''}
-Ngày sinh: ${fmtDate(G('baby_dob'))||'N/A'}
-Giáo viên: ${G('teacher_name')||'N/A'}
-Ngày trải nghiệm: ${fmtDate(G('session_date'))||'N/A'}
-Người đồng hành: ${G('companion')||'không có'}
+Tên bé: ${name}${nick ? ` (${nick})` : ''}${age ? `, ${age}` : ''}
+Ngày sinh: ${fmtDate(G('baby_dob')) || 'N/A'}
+Giáo viên: ${G('teacher_name') || 'N/A'}
+Ngày trải nghiệm: ${fmtDate(G('session_date')) || 'N/A'}
+Người đồng hành: ${G('companion') || 'không có'}
 
 GHI NHẬN:
-I. NHẬN XÉT CHUNG: ${G('gen_general')||'(chưa có)'} | Kết thúc: ${G('gen_end')||'(chưa có)'}
-II. Nhận thức: ${G('cog_all')||'(chưa có)'}
-Vận động thô: ${G('gross_all')||'(chưa có)'}
-Vận động tinh: ${G('fine_all')||'(chưa có)'}
-Ngôn ngữ: ${G('lang_all')||'(chưa có)'}
-Tình cảm–Xã hội: ${G('social_all')||'(chưa có)'}
-III. Đề xuất nhận thức: ${G('rec_cog')||'(chưa có)'}
-Đề xuất vận động thô: ${G('rec_gross')||'(chưa có)'}
-Đề xuất vận động tinh: ${G('rec_fine')||'(chưa có)'}
-Đề xuất ngôn ngữ: ${G('rec_lang')||'(chưa có)'}
-Đề xuất tình cảm: ${G('rec_social')||'(chưa có)'}
-IV. Kết luận: ${G('conclusion')||'(chưa có)'}
-Lời nhắn: ${G('closing')||'(chưa có)'}
+I. NHẬN XÉT CHUNG: ${G('gen_general') || '(chưa có)'} | Kết thúc: ${G('gen_end') || '(chưa có)'}
+II. Nhận thức: ${G('cog_all') || '(chưa có)'}
+Vận động thô: ${G('gross_all') || '(chưa có)'}
+Vận động tinh: ${G('fine_all') || '(chưa có)'}
+Ngôn ngữ: ${G('lang_all') || '(chưa có)'}
+Tình cảm–Xã hội: ${G('social_all') || '(chưa có)'}
+III. Đề xuất nhận thức: ${G('rec_cog') || '(chưa có)'}
+Đề xuất vận động thô: ${G('rec_gross') || '(chưa có)'}
+Đề xuất vận động tinh: ${G('rec_fine') || '(chưa có)'}
+Đề xuất ngôn ngữ: ${G('rec_lang') || '(chưa có)'}
+Đề xuất tình cảm: ${G('rec_social') || '(chưa có)'}
+IV. Kết luận: ${G('conclusion') || '(chưa có)'}
+Lời nhắn: ${G('closing') || '(chưa có)'}
 
 ---
 Trả về HTML THUẦN (không markdown, không backtick). Dùng ĐÚNG các class sau:
@@ -507,43 +1058,43 @@ Trả về HTML THUẦN (không markdown, không backtick). Dùng ĐÚNG các cl
 <p class="r-p">...</p>
 <p class="r-italic">Cảm ơn... (lời nhắn gửi phụ huynh, in nghiêng, gọi tên biệt danh bé)</p>`;
 
-  showLoad('✨ Đang tạo báo cáo...');
-  try{
-    const res=await fetch('https://api.anthropic.com/v1/messages',{
-      method:'POST',
-      headers:{'Content-Type':'application/json','x-api-key':localStorage.getItem('antToken')||''},
-      body:JSON.stringify({model:'claude-3-5-sonnet-20240620',max_tokens:1000,messages:[{role:'user',content:prompt}]})
-    });
-    const data=await res.json();
-    const raw=(data.content||[]).map(b=>b.text||'').join('');
-    const clean=raw.replace(/```html/gi,'').replace(/```/g,'').trim();
-    document.getElementById('ph').style.display='none';
-    const rc=document.getElementById('rc');
-    rc.style.display='block';
-    rc.innerHTML=clean;
-  }catch(e){alert('Lỗi kết nối. Vui lòng thử lại.');}
-  finally{hideLoad();}
-}
+      showLoad('✨ Đang tạo báo cáo...');
+      try {
+        const res = await fetch('https://api.anthropic.com/v1/messages', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json', 'x-api-key': localStorage.getItem('antToken') || '' },
+          body: JSON.stringify({ model: 'claude-3-5-sonnet-20240620', max_tokens: 1000, messages: [{ role: 'user', content: prompt }] })
+        });
+        const data = await res.json();
+        const raw = (data.content || []).map(b => b.text || '').join('');
+        const clean = raw.replace(/```html/gi, '').replace(/```/g, '').trim();
+        document.getElementById('ph').style.display = 'none';
+        const rc = document.getElementById('rc');
+        rc.style.display = 'block';
+        rc.innerHTML = clean;
+      } catch (e) { alert('Lỗi kết nối. Vui lòng thử lại.'); }
+      finally { hideLoad(); }
+    }
 
-/* ── AUDIO UPLOAD & TRANSCRIBE ── */
-async function handleAudioUpload(input) {
-  const file = input.files[0];
-  if (!file) return;
+    /* ── AUDIO UPLOAD & TRANSCRIBE ── */
+    async function handleAudioUpload(input) {
+      const file = input.files[0];
+      if (!file) return;
 
-  // Show status banner
-  document.getElementById('vsTitle').textContent = '📂 ' + file.name;
-  document.getElementById('vt').textContent = 'Đang chuyển giọng nói thành văn bản...';
-  document.getElementById('vs').classList.add('show');
-  showLoad('🎙️ Đang phân tích file ghi âm...');
+      // Show status banner
+      document.getElementById('vsTitle').textContent = '📂 ' + file.name;
+      document.getElementById('vt').textContent = 'Đang chuyển giọng nói thành văn bản...';
+      document.getElementById('vs').classList.add('show');
+      showLoad('🎙️ Đang phân tích file ghi âm...');
 
-  try {
-    // Step 1: Transcribe audio via Whisper (OpenAI) — fallback to base64 + Claude if unavailable
-    // We use the Anthropic audio input feature: send base64 audio to Claude directly
-    const base64 = await toBase64(file);
-    const mime = file.type || 'audio/mpeg';
+      try {
+        // Step 1: Transcribe audio via Whisper (OpenAI) — fallback to base64 + Claude if unavailable
+        // We use the Anthropic audio input feature: send base64 audio to Claude directly
+        const base64 = await toBase64(file);
+        const mime = file.type || 'audio/mpeg';
 
-    // Step 2: Send to Claude with audio + extraction prompt in one call
-    const prompt = `Bạn nhận được một file ghi âm của giáo viên giáo dục phát triển sớm mô tả buổi học của một bé.
+        // Step 2: Send to Claude with audio + extraction prompt in one call
+        const prompt = `Bạn nhận được một file ghi âm của giáo viên giáo dục phát triển sớm mô tả buổi học của một bé.
 Hãy:
 1. Nghe/đọc nội dung ghi âm
 2. Trích xuất thông tin và điền vào các trường form
@@ -572,140 +1123,140 @@ Trả về JSON THUẦN (không markdown, không giải thích), với các key 
   "closing": "lời cảm ơn / nhắn gửi phụ huynh"
 }`;
 
-    const res = await fetch('https://api.anthropic.com/v1/messages', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json','x-api-key':localStorage.getItem('antToken')||'' },
-      body: JSON.stringify({
-        model: 'claude-3-5-sonnet-20240620',
-        max_tokens: 1000,
-        messages: [{
-          role: 'user',
-          content: [
-            {
-              type: 'document',
-              source: { type: 'base64', media_type: mime, data: base64 }
-            },
-            { type: 'text', text: prompt }
-          ]
-        }]
-      })
-    });
+        const res = await fetch('https://api.anthropic.com/v1/messages', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json', 'x-api-key': localStorage.getItem('antToken') || '' },
+          body: JSON.stringify({
+            model: 'claude-3-5-sonnet-20240620',
+            max_tokens: 1000,
+            messages: [{
+              role: 'user',
+              content: [
+                {
+                  type: 'document',
+                  source: { type: 'base64', media_type: mime, data: base64 }
+                },
+                { type: 'text', text: prompt }
+              ]
+            }]
+          })
+        });
 
-    const data = await res.json();
+        const data = await res.json();
 
-    // If Claude doesn't support audio directly, fall back to text-only extraction
-    // by asking Claude to treat the transcription request gracefully
-    if (data.error) {
-      throw new Error(data.error.message || 'API error');
-    }
-
-    const raw = (data.content || []).map(b => b.text || '').join('');
-    const clean = raw.replace(/```json/gi, '').replace(/```/g, '').trim();
-
-    let obj;
-    try {
-      obj = JSON.parse(clean);
-    } catch(e) {
-      // Try to extract JSON from response
-      const match = clean.match(/\{[\s\S]*\}/);
-      if (match) obj = JSON.parse(match[0]);
-      else throw new Error('Không parse được JSON');
-    }
-
-    // Fill fields
-    let filled = 0;
-    Object.entries(obj).forEach(([k, v]) => {
-      if (v && String(v).trim()) {
-        const el = document.getElementById(k);
-        if (el) {
-          el.value = el.value.trim() ? (el.value.trim() + '\n' + String(v).trim()) : String(v).trim();
-          filled++;
+        // If Claude doesn't support audio directly, fall back to text-only extraction
+        // by asking Claude to treat the transcription request gracefully
+        if (data.error) {
+          throw new Error(data.error.message || 'API error');
         }
+
+        const raw = (data.content || []).map(b => b.text || '').join('');
+        const clean = raw.replace(/```json/gi, '').replace(/```/g, '').trim();
+
+        let obj;
+        try {
+          obj = JSON.parse(clean);
+        } catch (e) {
+          // Try to extract JSON from response
+          const match = clean.match(/\{[\s\S]*\}/);
+          if (match) obj = JSON.parse(match[0]);
+          else throw new Error('Không parse được JSON');
+        }
+
+        // Fill fields
+        let filled = 0;
+        Object.entries(obj).forEach(([k, v]) => {
+          if (v && String(v).trim()) {
+            const el = document.getElementById(k);
+            if (el) {
+              el.value = el.value.trim() ? (el.value.trim() + '\n' + String(v).trim()) : String(v).trim();
+              filled++;
+            }
+          }
+        });
+
+        document.getElementById('vsTitle').textContent = `✅ Đã điền ${filled} trường từ file ghi âm`;
+        document.getElementById('vt').textContent = 'Kiểm tra lại các ô và bổ sung nếu cần, rồi nhấn "Tạo báo cáo"';
+
+      } catch (e) {
+        console.error(e);
+        document.getElementById('vsTitle').textContent = '⚠️ Lỗi xử lý file';
+        document.getElementById('vt').textContent = e.message || 'Vui lòng thử lại hoặc điền thủ công.';
+      } finally {
+        hideLoad();
+        input.value = ''; // reset so same file can be re-uploaded
+        // Keep banner visible so user can read result
       }
-    });
+    }
 
-    document.getElementById('vsTitle').textContent = `✅ Đã điền ${filled} trường từ file ghi âm`;
-    document.getElementById('vt').textContent = 'Kiểm tra lại các ô và bổ sung nếu cần, rồi nhấn "Tạo báo cáo"';
+    function toBase64(file) {
+      return new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.onload = () => resolve(reader.result.split(',')[1]);
+        reader.onerror = reject;
+        reader.readAsDataURL(file);
+      });
+    }
 
-  } catch(e) {
-    console.error(e);
-    document.getElementById('vsTitle').textContent = '⚠️ Lỗi xử lý file';
-    document.getElementById('vt').textContent = e.message || 'Vui lòng thử lại hoặc điền thủ công.';
-  } finally {
-    hideLoad();
-    input.value = ''; // reset so same file can be re-uploaded
-    // Keep banner visible so user can read result
-  }
-}
-
-function toBase64(file) {
-  return new Promise((resolve, reject) => {
-    const reader = new FileReader();
-    reader.onload = () => resolve(reader.result.split(',')[1]);
-    reader.onerror = reject;
-    reader.readAsDataURL(file);
-  });
-}
-
-/* ── PHOTO HANDLING ── */
-let uploadedPhotos = [];
-function handlePhotoUpload(input) {
-  const files = Array.from(input.files);
-  files.forEach(file => {
-    const reader = new FileReader();
-    reader.onload = (e) => {
-      const id = Date.now() + Math.random();
-      uploadedPhotos.push({ id, data: e.target.result });
-      renderPhotos();
-    };
-    reader.readAsDataURL(file);
-  });
-  input.value = '';
-}
-function renderPhotos() {
-  const grid = document.getElementById('photoGrid');
-  grid.innerHTML = uploadedPhotos.map(p => `
+    /* ── PHOTO HANDLING ── */
+    let uploadedPhotos = [];
+    function handlePhotoUpload(input) {
+      const files = Array.from(input.files);
+      files.forEach(file => {
+        const reader = new FileReader();
+        reader.onload = (e) => {
+          const id = Date.now() + Math.random();
+          uploadedPhotos.push({ id, data: e.target.result });
+          renderPhotos();
+        };
+        reader.readAsDataURL(file);
+      });
+      input.value = '';
+    }
+    function renderPhotos() {
+      const grid = document.getElementById('photoGrid');
+      grid.innerHTML = uploadedPhotos.map(p => `
     <div class="photo-item">
       <img src="${p.data}">
       <button class="photo-del" onclick="delPhoto(${p.id})">&times;</button>
     </div>
   `).join('');
-}
-function delPhoto(id) {
-  uploadedPhotos = uploadedPhotos.filter(p => p.id !== id);
-  renderPhotos();
-}
+    }
+    function delPhoto(id) {
+      uploadedPhotos = uploadedPhotos.filter(p => p.id !== id);
+      renderPhotos();
+    }
 
-/* ── GITHUB INTEGRATION ── */
-function toggleGH() {
-  document.getElementById('ghModal').classList.toggle('show');
-  document.getElementById('ghToken').value = localStorage.getItem('ghToken') || '';
-  document.getElementById('antToken').value = localStorage.getItem('antToken') || '';
-  if (!document.getElementById('ghPath').value) {
-    const name = G('baby_name') || 'report';
-    const date = new Date().toISOString().split('T')[0];
-    document.getElementById('ghPath').value = `reports/${date}-${name.replace(/\s+/g, '-').toLowerCase()}.html`;
-  }
-}
+    /* ── GITHUB INTEGRATION ── */
+    function toggleGH() {
+      document.getElementById('ghModal').classList.toggle('show');
+      document.getElementById('ghToken').value = localStorage.getItem('ghToken') || '';
+      document.getElementById('antToken').value = localStorage.getItem('antToken') || '';
+      if (!document.getElementById('ghPath').value) {
+        const name = G('baby_name') || 'report';
+        const date = new Date().toISOString().split('T')[0];
+        document.getElementById('ghPath').value = `reports/${date}-${name.replace(/\s+/g, '-').toLowerCase()}.html`;
+      }
+    }
 
-async function saveToGitHub() {
-  const token = document.getElementById('ghToken').value;
-  const antToken = document.getElementById('antToken').value;
-  const repo = document.getElementById('ghRepo').value;
-  const path = document.getElementById('ghPath').value;
-  const content = document.getElementById('rc').innerHTML;
+    async function saveToGitHub() {
+      const token = document.getElementById('ghToken').value;
+      const antToken = document.getElementById('antToken').value;
+      const repo = document.getElementById('ghRepo').value;
+      const path = document.getElementById('ghPath').value;
+      const content = document.getElementById('rc').innerHTML;
 
-  if (antToken) localStorage.setItem('antToken', antToken);
-  if (!token || !repo || !path) { alert('Vui lòng điền đủ thông tin GitHub!'); return; }
-  if (!content) { alert('Vui lòng tạo báo cáo trước!'); return; }
+      if (antToken) localStorage.setItem('antToken', antToken);
+      if (!token || !repo || !path) { alert('Vui lòng điền đủ thông tin GitHub!'); return; }
+      if (!content) { alert('Vui lòng tạo báo cáo trước!'); return; }
 
-  localStorage.setItem('ghToken', token);
-  showLoad('🚀 Đang tải lên GitHub...');
+      localStorage.setItem('ghToken', token);
+      showLoad('🚀 Đang tải lên GitHub...');
 
-  try {
-    // 1. Wrap content in a full HTML for standalone viewing if needed
-    const photosHtml = uploadedPhotos.map(p => `<img src="${p.data}" style="max-width:100%;margin-top:10px;border-radius:8px">`).join('');
-    const fullHtml = `
+      try {
+        // 1. Wrap content in a full HTML for standalone viewing if needed
+        const photosHtml = uploadedPhotos.map(p => `<img src="${p.data}" style="max-width:100%;margin-top:10px;border-radius:8px">`).join('');
+        const fullHtml = `
       <!DOCTYPE html>
       <html>
       <head>
@@ -725,49 +1276,50 @@ async function saveToGitHub() {
       </html>
     `;
 
-    const base64Content = btoa(unescape(encodeURIComponent(fullHtml)));
-    
-    // Check if file exists to get SHA (for updates)
-    let sha = null;
-    try {
-      const checkRes = await fetch(`https://api.github.com/repos/${repo}/contents/${path}`, {
-        headers: { 'Authorization': `token ${token}` }
-      });
-      if (checkRes.ok) {
-        const checkData = await checkRes.json();
-        sha = checkData.sha;
+        const base64Content = btoa(unescape(encodeURIComponent(fullHtml)));
+
+        // Check if file exists to get SHA (for updates)
+        let sha = null;
+        try {
+          const checkRes = await fetch(`https://api.github.com/repos/${repo}/contents/${path}`, {
+            headers: { 'Authorization': `token ${token}` }
+          });
+          if (checkRes.ok) {
+            const checkData = await checkRes.json();
+            sha = checkData.sha;
+          }
+        } catch (e) { }
+
+        const res = await fetch(`https://api.github.com/repos/${repo}/contents/${path}`, {
+          method: 'PUT',
+          headers: {
+            'Authorization': `token ${token}`,
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            message: `Upload report for ${G('baby_name')}`,
+            content: base64Content,
+            sha: sha
+          })
+        });
+
+        if (res.ok) {
+          alert('✅ Đã lưu báo cáo lên GitHub thành công!');
+          toggleGH();
+        } else {
+          const err = await res.json();
+          throw new Error(err.message || 'Lỗi tải lên');
+        }
+      } catch (e) {
+        alert('❌ Lỗi: ' + e.message);
+      } finally {
+        hideLoad();
       }
-    } catch(e) {}
-
-    const res = await fetch(`https://api.github.com/repos/${repo}/contents/${path}`, {
-      method: 'PUT',
-      headers: {
-        'Authorization': `token ${token}`,
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({
-        message: `Upload report for ${G('baby_name')}`,
-        content: base64Content,
-        sha: sha
-      })
-    });
-
-    if (res.ok) {
-      alert('✅ Đã lưu báo cáo lên GitHub thành công!');
-      toggleGH();
-    } else {
-      const err = await res.json();
-      throw new Error(err.message || 'Lỗi tải lên');
     }
-  } catch(e) {
-    alert('❌ Lỗi: ' + e.message);
-  } finally {
-    hideLoad();
-  }
-}
 
-/* init */
-document.getElementById('session_date').value=new Date().toISOString().split('T')[0];
-</script>
+    /* init */
+    document.getElementById('session_date').value = new Date().toISOString().split('T')[0];
+  </script>
 </body>
+
 </html>
