@@ -44,17 +44,18 @@
       background: radial-gradient(circle at top left, #FDFCFB 0%, #F8F4EF 100%);
       color: var(--ink);
       min-height: 100vh;
-      overflow: hidden;
+      overflow: auto;
     }
 
     /* ── SHELL ── */
     .shell {
       display: grid;
-      grid-template-columns: minmax(400px, 450px) 1fr;
-      grid-template-rows: 64px 1fr;
-      height: 100vh;
-      overflow: hidden;
+      grid-template-columns: minmax(380px, 460px) minmax(0, 1fr);
+      grid-template-rows: auto 1fr;
+      min-height: 100vh;
+      overflow: visible;
       background: var(--bg);
+      align-items: start;
     }
 
     /* ── TOPBAR ── */
@@ -64,10 +65,12 @@
       display: flex;
       align-items: center;
       justify-content: space-between;
-      padding: 0 24px;
+      gap: 12px;
+      padding: 12px 24px;
       box-shadow: var(--shadow-sm);
       z-index: 100;
       position: relative;
+      flex-wrap: wrap;
     }
 
     .topbar-title {
@@ -81,20 +84,23 @@
     .topbar-actions {
       display: flex;
       gap: 10px;
-      align-items: center
+      align-items: center;
+      flex-wrap: wrap;
+      justify-content: flex-end
     }
 
     /* ── LEFT FORM ── */
     .left {
       background: var(--panel);
       backdrop-filter: blur(10px);
-      overflow-y: auto;
+      overflow-y: visible;
       overflow-x: hidden;
       padding: 24px;
       display: flex;
       flex-direction: column;
       gap: 18px;
       min-height: 0;
+      min-width: 0;
       border-right: 1px solid var(--border);
       scrollbar-width: thin;
       scrollbar-color: var(--sage-lt) transparent;
@@ -116,7 +122,8 @@
       flex-direction: column;
       align-items: center;
       padding: 32px 24px 80px;
-      overflow-y: auto;
+      overflow: visible;
+      min-width: 0;
     }
 
     /* ── FORM CARDS ── */
@@ -365,84 +372,6 @@
       transform: translateY(-2px)
     }
 
-    /* ── PHOTO UPLOAD ── */
-    .photo-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(90px, 1fr));
-      gap: 10px;
-      margin-top: 12px
-    }
-
-    .photo-item {
-      position: relative;
-      aspect-ratio: 1;
-      border-radius: 12px;
-      overflow: hidden;
-      border: 1px solid var(--border);
-      background: #f0f0f0;
-      box-shadow: var(--shadow-sm);
-      animation: popIn 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-    }
-
-    @keyframes popIn {
-      from {
-        transform: scale(0.8);
-        opacity: 0;
-      }
-
-      to {
-        transform: scale(1);
-        opacity: 1;
-      }
-    }
-
-    .photo-item img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover
-    }
-
-    .photo-del {
-      position: absolute;
-      top: 5px;
-      right: 5px;
-      background: rgba(255, 255, 255, 0.9);
-      color: var(--terra);
-      border: none;
-      border-radius: 50%;
-      width: 22px;
-      height: 22px;
-      font-size: 14px;
-      font-weight: bold;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      box-shadow: var(--shadow-sm);
-    }
-
-    .upload-zone {
-      border: 2px dashed var(--sage-lt);
-      border-radius: var(--r);
-      padding: 24px;
-      text-align: center;
-      cursor: pointer;
-      transition: all .3s;
-      background: rgba(90, 138, 95, 0.03)
-    }
-
-    .upload-zone:hover {
-      background: white;
-      border-color: var(--sage);
-      box-shadow: var(--shadow-md);
-    }
-
-    .upload-zone p {
-      font-size: 12px;
-      color: var(--sage);
-      font-weight: 600;
-      margin-top: 8px
-    }
 
     /* ── GITHUB MODAL ── */
     .modal-ov {
@@ -529,7 +458,7 @@
     /* ── PAGE SHELL (A4) ── */
     .page {
       background: white;
-      width: 760px;
+      width: min(760px, 100%);
       min-height: 1073px;
       box-shadow: var(--shadow-lg);
       border-radius: 8px;
@@ -702,21 +631,33 @@
     }
 
     /* ── MOBILE ── */
-    @media(max-width:860px) {
+    @media(max-width:1200px) {
       .shell {
         grid-template-columns: 1fr;
-        grid-template-rows: 56px auto auto;
-        height: auto;
-        overflow: auto
+        grid-template-rows: auto auto auto;
       }
 
       .left {
-        height: auto;
-        overflow: visible
+        border-right: none;
+        border-bottom: 1px solid var(--border);
       }
 
       .right {
-        padding: 16px 6px 40px
+        padding: 16px 12px 40px
+      }
+    }
+
+    @media(max-width:860px) {
+      .topbar {
+        padding: 14px 16px;
+      }
+
+      .topbar-actions {
+        justify-content: flex-start;
+      }
+
+      .fr {
+        grid-template-columns: 1fr;
       }
 
       .page {
@@ -895,20 +836,6 @@
         </div>
       </div>
 
-      <!-- Hình ảnh hoạt động -->
-      <div class="fc">
-        <div class="fch open" onclick="tc(this)"><span>📸</span><span class="fch-lbl">V. Hình ảnh hoạt động</span><span
-            class="fch-arr">▼</span></div>
-        <div class="fcb">
-          <div class="upload-zone" onclick="document.getElementById('childPhotos').click()">
-            <span style="font-size:24px">🖼️</span>
-            <p>Nhấn để tải lên hoặc kéo thả ảnh của bé</p>
-            <input type="file" id="childPhotos" multiple accept="image/*" style="display:none"
-              onchange="handlePhotoUpload(this)">
-          </div>
-          <div class="photo-grid" id="photoGrid"></div>
-        </div>
-      </div>
 
       <div style="display:flex;gap:8px;padding-top:6px">
         <button class="btn bp" style="flex:1" onclick="gen()">✨ Tạo báo cáo bằng AI</button>
@@ -1198,34 +1125,6 @@ Trả về JSON THUẦN (không markdown, không giải thích), với các key 
       });
     }
 
-    /* ── PHOTO HANDLING ── */
-    let uploadedPhotos = [];
-    function handlePhotoUpload(input) {
-      const files = Array.from(input.files);
-      files.forEach(file => {
-        const reader = new FileReader();
-        reader.onload = (e) => {
-          const id = Date.now() + Math.random();
-          uploadedPhotos.push({ id, data: e.target.result });
-          renderPhotos();
-        };
-        reader.readAsDataURL(file);
-      });
-      input.value = '';
-    }
-    function renderPhotos() {
-      const grid = document.getElementById('photoGrid');
-      grid.innerHTML = uploadedPhotos.map(p => `
-    <div class="photo-item">
-      <img src="${p.data}">
-      <button class="photo-del" onclick="delPhoto(${p.id})">&times;</button>
-    </div>
-  `).join('');
-    }
-    function delPhoto(id) {
-      uploadedPhotos = uploadedPhotos.filter(p => p.id !== id);
-      renderPhotos();
-    }
 
     /* ── GITHUB INTEGRATION ── */
     function toggleGH() {
@@ -1255,7 +1154,6 @@ Trả về JSON THUẦN (không markdown, không giải thích), với các key 
 
       try {
         // 1. Wrap content in a full HTML for standalone viewing if needed
-        const photosHtml = uploadedPhotos.map(p => `<img src="${p.data}" style="max-width:100%;margin-top:10px;border-radius:8px">`).join('');
         const fullHtml = `
       <!DOCTYPE html>
       <html>
@@ -1270,7 +1168,6 @@ Trả về JSON THUẦN (không markdown, không giải thích), với các key 
       <body>
         <div class="container">
           ${content}
-          <div class="photos">${photosHtml}</div>
         </div>
       </body>
       </html>
